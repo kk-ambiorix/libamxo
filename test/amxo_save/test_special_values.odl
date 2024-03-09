@@ -1,0 +1,31 @@
+%config {
+    test = "Text \"with\" single and double \'quotes\'";
+}
+
+%define {
+    %persistent object MainObject {
+        %persistent object InstanceObject[] {
+            %persistent string TextA = "";
+            %persistent string TextB = "";
+            %persistent string TextC = "";
+            %persistent string TextD = "";
+        }
+    }
+}
+
+%populate {
+    object MainObject.InstanceObject {
+        instance add(0, "default") {
+            parameter TextA = "\"Hello\"";
+            parameter TextB = '\"Hello\"';
+            parameter TextC = 'A\'B';
+            parameter TextD = 'A\"B';
+        }
+        instance add(0, "test") {
+            parameter TextA = "${test}";
+            parameter TextB = '\$\{test\}';
+            parameter TextC = '$(test)';
+            parameter TextD = "\$\(test\)";
+        }
+    }
+}
